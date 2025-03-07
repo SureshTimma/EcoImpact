@@ -1,0 +1,141 @@
+/* EcoImpact - Custom Styles */
+
+:root {
+    --primary-color: #2E8B57;  /* Sea Green */
+    --secondary-color: #3CB371; /* Medium Sea Green */
+    --accent-color: #F0F7F4;   /* Mint Cream */
+    --text-dark: #333333;
+    --text-light: #F8F9FA;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--text-dark);
+    background-color: #f8f9fa;
+    background-image: linear-gradient(120deg, rgba(240, 247, 244, 0.5), rgba(228, 245, 235, 0.8));
+    background-attachment: fixed;
+}
+
+/* Header styles */
+header {
+    margin-bottom: 2rem;
+}
+
+header .display-4 {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+/* Form container styles */
+.form-container {
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.form-container:hover {
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Section styling */
+section {
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.carbon-usage-heading {
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--secondary-color);
+    padding-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+/* Form elements styling */
+.form-label {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.form-control:focus {
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 0.25rem rgba(60, 179, 113, 0.25);
+}
+
+.form-check-input:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+/* Button styling */
+.btn-success {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    transition: all 0.3s ease;
+}
+
+.btn-success:hover, .btn-success:focus {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Results section */
+#results {
+    opacity: 0;
+    transition: all 0.5s ease;
+}
+
+#results.show {
+    opacity: 1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    
+    .form-container {
+        padding: 1.5rem;
+    }
+}
+
+/* Animation for feedback */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease forwards;
+}
+
+/* Progress indicators */
+.eco-progress {
+    height: 10px;
+    background-color: #e9ecef;
+    border-radius: 5px;
+    margin: 1rem 0;
+    overflow: hidden;
+}
+
+.eco-progress-bar {
+    height: 100%;
+    background-color: var(--primary-color);
+    border-radius: 5px;
+    transition: width 0.6s ease;
+}
+
+/* Input group styling */
+.input-group-text {
+    background-color: var(--primary-color);
+    color: white;
+    border: 1px solid var(--primary-color);
+}
+
+
+#carbon-impact{
+    color: bla;
+}
