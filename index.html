@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form class="form-container">
+        <h1 class="carbon-usage-heading">Travel Details</h1>
+        <div class="travel-details">
+            <div class="form-group">
+                <label for="travel-distance">How many kilometers did you travel today using your personal vehicle?</label>
+                <input type="text" id="travel-distance"/>
+            </div>
+            <div class="form-group">
+                <label for="vehical-type">Which type of vehicle did you use?</label>
+                
+                <input type="radio" value="Electric Vehicle" name="vehical-type" id="electric-vehicle"/>
+                <label for="electric-vehicle">Electric Vehicle</label>
+                
+                <input type="radio" value="Petrol Vehicle" name="vehical-type" id="petrol-vehicle"/>
+                <label for="petrol-vehicle">Petrol Vehicle</label>
+                
+                <input type="radio" value="Diesel Vehicle" name="vehical-type" id="diesel-vehicle"/>
+                <label for="diesel-vehicle">Diesel Vehicle</label>
+            </div>
+            <div class="form-group">
+                <label for="vehical-milage">What is the milage of your vehicle?</label>
+                <input type="text" id="vehical-milage"/>
+            </div>
+        </div>
+
+        <h1 class="carbon-usage-heading">Household Energy Consumption</h1>
+        <div class="household-details">
+            <div class="form-group">
+                <label for="electricity-consumption">How much electricity do you consume in a month?</label>
+                <input type="text" id="electricity-consumption"/>
+            </div>
+            <div class="form-group">
+                <label for="gas-consumption">How much gas do you consume in a month?</label>
+                <input type="text" id="gas-consumption"/>
+            </div>
+        </div>
+
+        <h1 class="carbon-usage-heading">Food Consumption</h1>
+        <div class="food-consumption-details">
+            <div class="form-group">
+                <label for="diet-type">Which of the following best describes your diet?</label>
+                <input type="radio" id="veg" name="food-consumption" value="Vegitarian"/>
+                <label for="veg">Vegitarian</label>
+                
+                <input type="radio" id="non-veg" name="food-consumption" value="Non-Vegitarian"/>
+                <label for="non-veg">Non-Vegitarian</label>
+
+                <input type="radio" id="vegan" name="food-consumption" value="Vegan"/>
+                <label for="vegan">Vegan</label>
+            </div>
+                
+        </div>
+
+        <button type="submit" id="submit-button">Submit</button>
+                
+    </form>
+    
+    <script src="app.js"></script>
+</body>
+</html>
