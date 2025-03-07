@@ -1,49 +1,117 @@
-const chatForm = document.getElementById('chat-form');
-    const chatWindow = document.getElementById('chat');
-    const userInput = document.getElementById('user-input');
+// Get HTML elements from our webpage
+let chatFormElement = document.getElementById('chat-form');    // Form that contains the input and button
+let chatWindowElement = document.getElementById('chat');       // Div where messages will display
+let userInputElement = document.getElementById('user-input');  // Text input where user types
 
-    chatForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const message = userInput.value;
-      appendMessage('user', message);
-      userInput.value = '';
-
-      // Use the free Gemini model: gemini-1.5-flash.
-      const apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyB9Fj3F7v61yoDhnRapKmbKCD7rJzNHkY8';
-
-      try {
-        const response = await fetch(apiUrl, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [{
-              parts: [{ text: message }]
-            }],
-            generationConfig: {
-              maxOutputTokens: 100  // Adjust this value as needed
-            }
-          })
-        });
-
-        const data = await response.json();
-        const botReply = data.candidates &&
-                         data.candidates[0] &&
-                         data.candidates[0].content &&
-                         data.candidates[0].content.parts &&
-                         data.candidates[0].content.parts[0].text
-                         ? data.candidates[0].content.parts[0].text
-                         : "Sorry, no response received.";
-        appendMessage('bot', botReply);
-      } catch (error) {
-        console.error('Error:', error);
-        appendMessage('bot', 'Error: ' + error.message);
+// This runs when user clicks Send
+function handleSubmit(event) {
+  // Stop form from refreshing page
+  event.preventDefault();
+  
+  // Get text from input box
+  let userMessageText = userInputElement.value;
+  
+  // Don't send empty messages
+  if (userMessageText === '') {
+    return;
+  }
+  
+  // Show user message in chat
+  addMessageToChat('user', userMessageText);
+  
+  // Empty the input field
+  userInputElement.value = '';
+  
+  // Show loading message
+  let loadingMessageElement = addMessageToChat('bot', 'Thinking...');
+  
+  // API info for Gemini
+  let geminiApiKey = 'AIzaSyB9Fj3F7v61yoDhnRapKmbKCD7rJzNHkY8';
+  let geminiApiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=' + geminiApiKey;
+  
+  // Create HTTP request
+  let httpRequest = new XMLHttpRequest();
+  
+  // What to do when we get a response
+  httpRequest.onreadystatechange = function() {
+    // Check if request is finished
+    if (httpRequest.readyState === 4) {
+      // Remove loading message
+      if (loadingMessageElement && loadingMessageElement.parentNode) {
+        loadingMessageElement.parentNode.removeChild(loadingMessageElement);
       }
-    });
-
-    function appendMessage(sender, text) {
-      const messageDiv = document.createElement('div');
-      messageDiv.classList.add(sender === 'user' ? 'user-message' : 'bot-message');
-      messageDiv.innerHTML = `<strong>${sender === 'user' ? 'You' : 'Bot'}:</strong> ${text}`;
-      chatWindow.appendChild(messageDiv);
-      chatWindow.scrollTop = chatWindow.scrollHeight;
+      
+      // If request was successful
+      if (httpRequest.status === 200) {
+        // Convert response text to object
+        let responseObject = JSON.parse(httpRequest.responseText);
+        
+        // Default error message
+        let botResponseText = "Sorry, I couldn't understand that.";
+        
+        // Get bot response from API result if available
+        if (responseObject.candidates && 
+            responseObject.candidates[0] && 
+            responseObject.candidates[0].content && 
+            responseObject.candidates[0].content.parts && 
+            responseObject.candidates[0].content.parts[0].text) {
+          
+          botResponseText = responseObject.candidates[0].content.parts[0].text;
+        }
+        
+        // Show bot's response
+        addMessageToChat('bot', botResponseText);
+      } else {
+        // Show error message
+        addMessageToChat('bot', 'Sorry, I had a problem connecting to the AI service.');
+      }
     }
+  };
+  
+  // Set up the request
+  httpRequest.open('POST', geminiApiUrl, true);
+  httpRequest.setRequestHeader('Content-Type', 'application/json');
+  
+  // Create data to send
+  let requestDataObject = {
+    contents: [{
+      parts: [{ text: userMessageText }]
+    }],
+    generationConfig: {
+      maxOutputTokens: 100
+    }
+  };
+  
+  // Convert data to JSON string
+  let requestDataString = JSON.stringify(requestDataObject);
+  
+  // Send the request
+  httpRequest.send(requestDataString);
+}
+
+// Connect form submit event to our function
+chatFormElement.addEventListener('submit', handleSubmit);
+
+// Adds a new message to the chat
+function addMessageToChat(senderType, messageText) {
+  // Create new div for message
+  let messageElement = document.createElement('div');
+  
+  // Style based on who sent it
+  if (senderType === 'user') {
+    messageElement.className = 'user-message';
+    messageElement.innerHTML = '<strong>You:</strong> ' + messageText;
+  } else {
+    messageElement.className = 'bot-message';
+    messageElement.innerHTML = '<strong>Bot:</strong> ' + messageText;
+  }
+  
+  // Add to chat window
+  chatWindowElement.appendChild(messageElement);
+  
+  // Scroll to see new message
+  chatWindowElement.scrollTop = chatWindowElement.scrollHeight;
+  
+  // Return so we can remove it later if needed
+  return messageElement;
+}
