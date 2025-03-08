@@ -18,5 +18,5 @@ let url="https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flas
 
 fetch(url,options)
     .then(function(response){
-        console.log(response.json());
+        // console.log(response.json());
     });
