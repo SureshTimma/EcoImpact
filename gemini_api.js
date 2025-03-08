@@ -37,10 +37,12 @@ geminiSearchButton.addEventListener("click",function(){
                 response=response.candidates[0];
                 response=response.content.parts[0]
                 response=response.text;
-
                 console.log(response);
+                response=marked.parse(response);
 
-                document.getElementById("gemini-reslut-text").textContent=response;
+                
+
+                document.getElementById("gemini-reslut-text").innerHTML =response;
             });
 
         
