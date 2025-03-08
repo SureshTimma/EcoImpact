@@ -1,22 +1,47 @@
-let options={
-    method:"POST",
-    headers:{
-        'Content-Type': "application/json",
-        Accept: "application/json"
-    },
+let geminiSearchInput=document.getElementById("gemini-search");
+let geminiSearchButton=document.getElementById("gemini-search-button");
 
-    body: JSON.stringify({
-        "contents": [{
-          "parts":[{"text": "Explain how AI works"}]
-          }]
-         })
-};
+geminiSearchButton.addEventListener("click",function(){
+    
+        let geminiSearchPrompt=geminiSearchInput.value;
+        console.log(geminiSearchPrompt);
+    
 
-let GEMINI_API_KEY="AIzaSyB9Fj3F7v61yoDhnRapKmbKCD7rJzNHkY8"
 
-let url="https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key="+GEMINI_API_KEY;
+        let options={
+            method:"POST",
+            headers:{
+                'Content-Type': "application/json",
+                Accept: "application/json"
+            },
 
-fetch(url,options)
-    .then(function(response){
-        // console.log(response.json());
-    });
+            body: JSON.stringify({
+                "contents": [{
+                "parts":[{"text": geminiSearchPrompt}]
+                }]
+                })
+        };
+
+        let GEMINI_API_KEY="AIzaSyB9Fj3F7v61yoDhnRapKmbKCD7rJzNHkY8"
+
+        let url="https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key="+GEMINI_API_KEY;
+
+        fetch(url,options)
+            .then(function(response){
+                return response.json()
+                
+                
+            })
+            
+            .then(function(response){
+                response=response.candidates[0];
+                response=response.content.parts[0]
+                response=response.text;
+
+                console.log(response);
+
+                document.getElementById("gemini-reslut-text").textContent=response;
+            });
+
+        
+})
