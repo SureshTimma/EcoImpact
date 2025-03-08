@@ -6,6 +6,8 @@ let gasConsumption=document.getElementById("gas-consumption");
 let foodConsumption=document.getElementsByName("food-consumption");
 let submitButton=document.getElementById("submit-button");
 
+let pollutionResultsContainer=document.getElementById("pollution-result");
+
 let vehicalCarbonEmission=0;
 
 let emissionPerKmElectricity=0.4;
@@ -55,6 +57,8 @@ submitButton.addEventListener("click",function(event){
         co2LevelEl.textContent="Please Reduce your Carbon Footprint.";
     }    
 
+        pollutionResultsContainer.classList.remove("d-none");
+        pollutionResult.scrollIntoView({ behavior: "smooth" });
 
 
 
