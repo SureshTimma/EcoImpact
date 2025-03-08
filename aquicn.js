@@ -22,6 +22,9 @@ searchBar.addEventListener("keydown",function(event){
     if (event.key==="Enter"){
         let searchWord=event.target.value;
         console.log(searchWord);
+
+        // Clear previous results so that every new search displays fresh results
+        cityContainer.innerHTML = "";
     
 
         //Fetching Details of Cities
@@ -32,21 +35,46 @@ searchBar.addEventListener("keydown",function(event){
         })
 
         .then(function(responce){
-
-            const cityList = responce.data.map(cityDetails => cityDetails.station.name);
-            // console.log(cityList);
+            
+            console.log(responce.data);
 
             
 
+            const cityList = responce.data.map(cityDetails => cityDetails.station.name);
+            
 
-            for (let cityName of cityList){
-                if (cityName.toLowerCase().includes(searchWord.toLowerCase())){
-                
-                let cityNameEl = document.createElement("p");
-                cityNameEl.textContent = cityName; 
-                cityContainer.appendChild(cityNameEl);
-                }
 
+            for (let cityName of cityList) {
+                    if (cityName.toLowerCase().includes(searchWord.toLowerCase())) {
+                        
+                        let cityCard = document.createElement("div");
+                        cityCard.classList.add("card", "mb-3");
+                        cityCard.style.width = "18rem";
+
+                        let cardBody = document.createElement("div");
+                        cardBody.classList.add("card-body");
+
+                        for (city of responce.data){
+                            let cityNameList=city.station.name;
+                        }
+
+                        let cityNameEl = document.createElement("p");
+                        cityNameEl.classList.add("card-text");
+                        cityNameEl.textContent = cityName;
+
+                        cardBody.appendChild(cityNameEl);
+                        cityCard.appendChild(cardBody);
+                        cityContainer.appendChild(cityCard);
+
+
+
+                        
+
+
+
+
+
+                    }
                 }
             }
             

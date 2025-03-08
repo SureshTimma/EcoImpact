@@ -139,3 +139,11 @@ section {
 #carbon-impact{
     color: bla;
 }
+
+
+
+#city-container{
+    display: flex;
+    flex-wrap: wrap;
+}
+
